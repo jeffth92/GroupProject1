@@ -13,15 +13,15 @@ namespace GroupProject
 
       //  Dictionary<string, Room> Rooms = new Dictionary<string, Room>
       //  {
-      //      {"Treasury" treasury },
-      //      {"Armory" armory },
-      //      {"Cell" cell },
-      //      {"Hall" hall },
+      //      {"Treasury", treasury },
+      //      {"Armory", armory },
+      //      {"Cell", cell },
+      //      {"Hall", hall },
       //  };
 
         public void Run()
         {
-           // Rooms currentRoom = treasury;
+            // Room currentRoom = treasury;
             Console.Clear(); //if we make a title card, put it in this bit
             Console.WriteLine("You have snuck into the dungeon in search of treasure.\n" +
                                "and have found The Dungeon's wealthy Treasury at last!\n" +
@@ -32,6 +32,8 @@ namespace GroupProject
             bool living = true;
             while (living)
             {
+                Console.Clear();
+                Console.WriteLine($"You're in the {currentRoom}");
                 //go exit move leave: nsew considered at later time
 
                 //going to which room defined beneath ^
