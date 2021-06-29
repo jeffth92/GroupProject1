@@ -1,0 +1,7 @@
+C:\Users\jefft\source\repos\GroupProject\bin\Debug\GroupProject.exe.config
+C:\Users\jefft\source\repos\GroupProject\bin\Debug\GroupProject.exe
+C:\Users\jefft\source\repos\GroupProject\bin\Debug\GroupProject.pdb
+C:\Users\jefft\source\repos\GroupProject\obj\Debug\GroupProject.csproj.AssemblyReference.cache
+C:\Users\jefft\source\repos\GroupProject\obj\Debug\GroupProject.csproj.CoreCompileInputs.cache
+C:\Users\jefft\source\repos\GroupProject\obj\Debug\GroupProject.exe
+C:\Users\jefft\source\repos\GroupProject\obj\Debug\GroupProject.pdb
