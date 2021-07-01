@@ -12,7 +12,7 @@ namespace GroupProject
         public enum Item { Sword, TreasureKey, CellKey, Mirror }; //mirror vs Gorgon item get image via ascii
         public List<Item> inventory = new List<Item>();
 
-        Dictionary<string, Room> Rooms = new Dictionary<string, Room>
+        readonly Dictionary<string, Room> Rooms = new Dictionary<string, Room>
         {
             {"Treasury", treasury },
            // {"Armory", armory },
@@ -25,15 +25,17 @@ namespace GroupProject
         {
             Room currentRoom = treasury;
             Console.Clear(); //if we make a title card, put it in this bit
-            Console.WriteLine("You have snuck into the dungeon in search of treasure.\n" +
+            Console.WriteLine("You have snuck into the dungeon in search of treasure\n" +
                                "and have found The Dungeon's wealthy Treasury at last!\n" +
                                "The chest is far too heavy to be moved, it seems you'll\n" +
                                "need the right key in hand before you leave with the riches.\n" +
-                                "------------------------------------------------------");
-            Console.ReadKey();
+                                "------------------------------------------------------\n" +
+                                "Press any key to start");
+            Console.ReadLine();
             bool living = true;
             while (living)
             {
+                Console.ReadLine();
                 Console.Clear();
                 Console.WriteLine(currentRoom.Splash);
                 string command = Console.ReadLine().ToLower();
@@ -60,13 +62,14 @@ namespace GroupProject
                     bool foundItem = false;
                     foreach (Item item in currentRoom.Items)
                     {
-                        if (!foundItem && command.Contains(item.ToString()))
+                        if (!foundItem && command.Contains(item.ToString().ToLower()))
                         {
-                            Console.WriteLine($"You found the {item}." +
-                                "Press any key to contains...");
+                            Console.WriteLine($"You got {item}" 
+                                + " Press any key to continue..");
                             currentRoom.RemoveItem(item);
                             inventory.Add(item);
                             foundItem = true;
+                            Console.WriteLine();
                             Console.ReadKey();
                             break;
                         }
@@ -77,26 +80,56 @@ namespace GroupProject
                     }
                 }
                 else if (command.StartsWith("use ") || command.StartsWith("activate ") || command.StartsWith("try ") ||
-                      (inventory.Contains(Item.Sword) && command.StartsWith("swing sword")))
+                      (inventory.Contains(Item.Sword) && command.StartsWith("swing sword")) ||
+                      (inventory.Contains(Item.TreasureKey) && command.StartsWith("turn ")) ||
+                      (inventory.Contains(Item.CellKey) && command.StartsWith("turn "))) //use activate ||swing sword execption? turn key (huge possibility of making a good text-parsing job.)
+                {
+                    string eventMessage = "You try, but nothing happens.";
+                    foreach (Event roomEvent in currentRoom.Events)
                     {
-
-                    }                 
-                //use activate ||swing sword execption? turn key (huge possibility of making a good text-parsing job.) 
-
-                //cant perform "exiting else" general case error message
+                        if (!command.Contains(roomEvent.TriggerPhrase) || roomEvent.Type != EventType.Use)
+                        {
+                            continue;
+                        }
+                        if (roomEvent.EventResult.Type == Result.ResultType.NewExit)
+                        {
+                            currentRoom.Exits.Add(roomEvent.EventResult.ResultExit);
+                            eventMessage = roomEvent.EventResult.ResultMessage;
+                        }
+                        else if (roomEvent.EventResult.Type == Result.ResultType.GetItem)
+                        {
+                            inventory.Add(roomEvent.EventResult.ResultItem);
+                            eventMessage = roomEvent.EventResult.ResultMessage;
+                        }
+                        else if (roomEvent.EventResult.Type == Result.ResultType.MessageOnly)
+                        {
+                            eventMessage = roomEvent.EventResult.ResultMessage;
+                        }
+                    }
+                    Console.WriteLine(eventMessage);
+                }
+                else 
+                {
+                    Console.WriteLine("Hint: use GO, GET, or USE. similar words might work."); //cant perform "exiting else" general case error message
+                }
             }
         }  // Room geration here and non-random, hard-set outside of the while loop. next level from inside the chest?
 
         public static Room treasury = new Room(
             "You enter the treasury, as described here.\n" +
-            "This chamber connects with the Cell and the Armory. You see the key",
+            "This chamber connects with the Cell and the Armory. You see the TreasureKey",
             new List<string> { "cell", "armory" },
             new List<Item> { Item.TreasureKey },
             new List<Event> {
                 new Event(
-                "TreasureKey",
+                "use treasurekey",
                 EventType.Use,
                 new Result("goal", "You open the path Downward!")
+                ),
+                new Event(
+                "get treasurekey",
+                EventType.Get,
+                new Result(Item.TreasureKey, "You found the Treasure Key! USE it in the Treasury!") //text doesn't seem to work
                 )
             }
         );
