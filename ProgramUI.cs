@@ -12,7 +12,7 @@ namespace GroupProject
         public enum Item { Sword, TreasureKey, CellKey, Mirror }; //mirror vs Gorgon item get image via ascii
         public List<Item> inventory = new List<Item>();
 
-         readonly Dictionary<string, Room> Rooms = new Dictionary<string, Room>
+        readonly Dictionary<string, Room> Rooms = new Dictionary<string, Room>
         {
             {"treasury", treasury },
             {"armory", armory },
@@ -38,6 +38,10 @@ namespace GroupProject
                 Console.ReadLine();
                 Console.Clear();
                 Console.WriteLine(currentRoom.Splash);
+                foreach (Item item in currentRoom.Items)
+                {
+                    Console.WriteLine($"You see one {item}.");
+                }
                 string command = Console.ReadLine().ToLower();
                 bool foundExit = false;
                 if (command.StartsWith("go ") || command.StartsWith("move to ") || command.StartsWith("go to ") || command.StartsWith("enter ")) //go move enter: nsew considered at later time
@@ -70,7 +74,6 @@ namespace GroupProject
                             currentRoom.RemoveItem(item);
                             inventory.Add(item);
                             foundItem = true;
-                            Console.WriteLine(); //call eventMessage here, somehow
                             Console.ReadKey();
                             break;
                         }
@@ -78,6 +81,10 @@ namespace GroupProject
                     if (!foundItem)
                     {
                         Console.WriteLine("You can't find one.");
+                    }
+                    foreach (Item item in currentRoom.Items)
+                    {
+                        Console.WriteLine($"You see one {item}.");
                     }
                 }
                 else if (command.StartsWith("use ") || command.StartsWith("activate ") || command.StartsWith("try ") ||
@@ -118,7 +125,7 @@ namespace GroupProject
 
         public static Room treasury = new Room(
             "You enter the treasury, as described here.\n" +
-            "This chamber connects with the Cell and the Armory. You see the TreasureKey",
+            "This chamber connects with the Cell and the Armory.",
             new List<string> { "cell", "armory" },
             new List<Item> { Item.TreasureKey },
             new List<Event> {
@@ -130,8 +137,8 @@ namespace GroupProject
                 new Event(
                 "treasurekey",
                 EventType.Get,
-                new Result(Item.TreasureKey, "You found the Treasure Key! USE it in the Treasury!") //this string doesn't seem to work
-                )
+                new Result(Item.TreasureKey, "You found the Treasure Key! USE it in the Treasury!")
+                ),
             }
         );
         public static Room armory = new Room(
@@ -161,6 +168,5 @@ namespace GroupProject
             new List<Item> { },
             new List<Event> { }
         );
-            
     }
 }

@@ -9,7 +9,7 @@ namespace GroupProject
 {
     public class Room
     {
-        public string Splash { get; }
+        public string Splash { get; set; }
         public List<string> Exits { get; }
         public List<Item> Items { get; }
         public List<Event> Events { get; }
