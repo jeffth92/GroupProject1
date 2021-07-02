@@ -12,13 +12,13 @@ namespace GroupProject
         public enum Item { Sword, TreasureKey, CellKey, Mirror }; //mirror vs Gorgon item get image via ascii
         public List<Item> inventory = new List<Item>();
 
-        readonly Dictionary<string, Room> Rooms = new Dictionary<string, Room>
+         readonly Dictionary<string, Room> Rooms = new Dictionary<string, Room>
         {
-            {"Treasury", treasury },
-           // {"Armory", armory },
-           // {"Cell", cell },
-           // {"Hall", hall },
-            {"Goal", goal},
+            {"treasury", treasury },
+            {"armory", armory },
+            {"cell", cell },
+            {"hall", hall },
+            {"goal", goal},
         };
 
         public void Run()
@@ -44,7 +44,7 @@ namespace GroupProject
                 {
                     foreach (string exit in currentRoom.Exits) //room connection check
                     {
-                        if (command.Contains(exit) && //going to which room defined beneath, unneeded?!
+                        if (command.Contains(exit) &&
                         Rooms.ContainsKey(exit))
                         {
                             currentRoom = Rooms[exit];
@@ -64,12 +64,13 @@ namespace GroupProject
                     {
                         if (!foundItem && command.Contains(item.ToString().ToLower()))
                         {
-                            Console.WriteLine($"You got {item}" 
+                            Console.WriteLine($"You got {item}"
+                                + " try using it!"
                                 + " Press any key to continue..");
                             currentRoom.RemoveItem(item);
                             inventory.Add(item);
                             foundItem = true;
-                            Console.WriteLine();
+                            Console.WriteLine(); //call eventMessage here, somehow
                             Console.ReadKey();
                             break;
                         }
@@ -108,7 +109,7 @@ namespace GroupProject
                     }
                     Console.WriteLine(eventMessage);
                 }
-                else 
+                else
                 {
                     Console.WriteLine("Hint: use GO, GET, or USE. similar words might work."); //cant perform "exiting else" general case error message
                 }
@@ -122,20 +123,40 @@ namespace GroupProject
             new List<Item> { Item.TreasureKey },
             new List<Event> {
                 new Event(
-                "use treasurekey",
+                "treasurekey",
                 EventType.Use,
                 new Result("goal", "You open the path Downward!")
                 ),
                 new Event(
-                "get treasurekey",
+                "treasurekey",
                 EventType.Get,
-                new Result(Item.TreasureKey, "You found the Treasure Key! USE it in the Treasury!") //text doesn't seem to work
+                new Result(Item.TreasureKey, "You found the Treasure Key! USE it in the Treasury!") //this string doesn't seem to work
                 )
             }
         );
+        public static Room armory = new Room(
+            "Armory Text",
+            new List<string> { "treasury", "hall" },
+            new List<Item> { },
+            new List<Event> { }
+        );
+
+        public static Room cell = new Room(
+            "Cell Text",
+            new List<string> { "treasury" },
+            new List<Item> { },
+            new List<Event> { }
+        );
+
+        public static Room hall = new Room(
+           "Hall Text",
+           new List<string> { "armory" },
+           new List<Item> { },
+           new List<Event> { }
+       );
 
         public static Room goal = new Room(
-            "n\n\n\n\nYou've beaten the demo.\n",
+            "\n\n\n\nYou've beaten the demo.\n",
             new List<string> { "treasury" },
             new List<Item> { },
             new List<Event> { }
