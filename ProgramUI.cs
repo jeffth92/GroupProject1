@@ -9,7 +9,7 @@ namespace GroupProject
 {
     public class ProgramUI
     {
-        public enum Item { Sword, TreasureKey, CellKey, Mirror }; //mirror vs Gorgon item get image via ascii
+        public enum Item { Sword, TreasureKey, HallKey, Mirror }; //mirror vs Gorgon item get image via ascii
         public List<Item> inventory = new List<Item>();
 
         readonly Dictionary<string, Room> Rooms = new Dictionary<string, Room>
@@ -18,7 +18,12 @@ namespace GroupProject
             {"armory", armory },
             {"cell", cell },
             {"hall", hall },
-            {"goal", goal},
+            {"treasurechest", treasurechest},
+            {"chest", treasurechest },
+            {"treasure", treasurechest },
+            {"hiddenchamber", hiddenchamber},
+            {"hidden chamber", hiddenchamber},
+            {"chamber", hiddenchamber}
         };
 
         public void Run()
@@ -35,13 +40,14 @@ namespace GroupProject
             bool living = true;
             while (living)
             {
-                Console.ReadLine();
+                
                 Console.Clear();
                 Console.WriteLine(currentRoom.Splash);
                 foreach (Item item in currentRoom.Items)
                 {
-                    Console.WriteLine($"You see one {item}.");
+                    Console.WriteLine($"there is a {item} in this room.");
                 }
+                Console.ReadLine();
                 string command = Console.ReadLine().ToLower();
                 bool foundExit = false;
                 if (command.StartsWith("go ") || command.StartsWith("move to ") || command.StartsWith("go to ") || command.StartsWith("enter ")) //go move enter: nsew considered at later time
@@ -90,7 +96,7 @@ namespace GroupProject
                 else if (command.StartsWith("use ") || command.StartsWith("activate ") || command.StartsWith("try ") ||
                       (inventory.Contains(Item.Sword) && command.StartsWith("swing sword")) ||
                       (inventory.Contains(Item.TreasureKey) && command.StartsWith("turn ")) ||
-                      (inventory.Contains(Item.CellKey) && command.StartsWith("turn "))) //use activate ||swing sword execption? turn key (huge possibility of making a good text-parsing job.)
+                      (inventory.Contains(Item.HallKey) && command.StartsWith("turn "))) //use activate ||swing sword execption? turn key (huge possibility of making a good text-parsing job.)
                 {
                     string eventMessage = "You try, but nothing happens.";
                     foreach (Event roomEvent in currentRoom.Events)
@@ -127,43 +133,80 @@ namespace GroupProject
             "You enter the treasury, as described here.\n" +
             "This chamber connects with the Cell and the Armory.",
             new List<string> { "cell", "armory" },
-            new List<Item> { Item.TreasureKey },
+            new List<Item> { Item.Mirror },
             new List<Event> {
                 new Event(
                 "treasurekey",
                 EventType.Use,
-                new Result("goal", "You open the path Downward!")
+                new Result("goal", "You open the path downward into the Chest!")
                 ),
                 new Event(
-                "treasurekey",
+                "mirror",
                 EventType.Get,
-                new Result(Item.TreasureKey, "You found the Treasure Key! USE it in the Treasury!")
+                new Result(Item.Mirror, "You found a Mirror, Useful for looking at your reflection..")
                 ),
             }
         );
         public static Room armory = new Room(
             "Armory Text",
             new List<string> { "treasury", "hall" },
-            new List<Item> { },
-            new List<Event> { }
+            new List<Item> { Item.Sword },
+            new List<Event> {
+                new Event(
+                "sword",
+                EventType.Get,
+                new Result(Item.Sword, "You found the Sword! Use it in a fight!")
+                ),
+            }
         );
 
         public static Room cell = new Room(
             "Cell Text",
             new List<string> { "treasury" },
-            new List<Item> { },
-            new List<Event> { }
+            new List<Item> { Item.HallKey },
+            new List<Event> {  
+                new Event(
+                "hallkey",
+                EventType.Get,
+                new Result(Item.HallKey, "You found the Hallkey! Where is the Hall?")
+                ),
+            }
         );
 
         public static Room hall = new Room(
            "Hall Text",
-           new List<string> { "armory" },
+           new List<string> { "armory", "hiddenchamber" },
            new List<Item> { },
-           new List<Event> { }
+           new List<Event> {
+                new Event(
+                "sword",
+                EventType.Use,
+                new Result("Looking at your foe, You realize your mistake.")
+                ),
+                new Event(
+                "mirror",
+                EventType.Use,
+                new Result("hiddenchamber", "You cause the monster to view itself, turning the Gorgon to stone!")
+                ),
+           }
        );
 
-        public static Room goal = new Room(
-            "\n\n\n\nYou've beaten the demo.\n",
+        public static Room hiddenchamber = new Room(
+            "Secret room text",
+            new List<string> { "treasury" },
+            new List<Item> { Item.TreasureKey },
+            new List<Event> { 
+            new Event(
+                "treasurekey",
+                EventType.Get,
+                new Result(Item.TreasureKey, "You found the Treasure Key! USE it in the Treasury!")
+                ),
+            }
+        );
+
+        public static Room treasurechest = new Room(
+            "You've beaten the demo.\n +" +
+            "THANKS FOR PLAYING!",
             new List<string> { "treasury" },
             new List<Item> { },
             new List<Event> { }
