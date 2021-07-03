@@ -12,3 +12,10 @@ C:\Users\jefft\source\repos\New folder (2)\obj\Debug\GroupProject.pdb
 C:\Users\jefft\source\repos\New folder (2)\bin\Debug\GroupProject.exe.config
 C:\Users\jefft\source\repos\New folder (2)\bin\Debug\GroupProject.exe
 C:\Users\jefft\source\repos\New folder (2)\bin\Debug\GroupProject.pdb
+C:\Users\jefft\Source\Repos\GroupProject1\bin\Debug\GroupProject.exe.config
+C:\Users\jefft\Source\Repos\GroupProject1\bin\Debug\GroupProject.exe
+C:\Users\jefft\Source\Repos\GroupProject1\bin\Debug\GroupProject.pdb
+C:\Users\jefft\Source\Repos\GroupProject1\obj\Debug\GroupProject.csproj.AssemblyReference.cache
+C:\Users\jefft\Source\Repos\GroupProject1\obj\Debug\GroupProject.csproj.CoreCompileInputs.cache
+C:\Users\jefft\Source\Repos\GroupProject1\obj\Debug\GroupProject.exe
+C:\Users\jefft\Source\Repos\GroupProject1\obj\Debug\GroupProject.pdb
