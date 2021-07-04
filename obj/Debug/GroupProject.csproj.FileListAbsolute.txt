@@ -19,3 +19,10 @@ C:\Users\jefft\Source\Repos\GroupProject1\obj\Debug\GroupProject.csproj.Assembly
 C:\Users\jefft\Source\Repos\GroupProject1\obj\Debug\GroupProject.csproj.CoreCompileInputs.cache
 C:\Users\jefft\Source\Repos\GroupProject1\obj\Debug\GroupProject.exe
 C:\Users\jefft\Source\Repos\GroupProject1\obj\Debug\GroupProject.pdb
+C:\Users\shelb\source\repos\GroupProject1\New folder\bin\Debug\GroupProject.exe.config
+C:\Users\shelb\source\repos\GroupProject1\New folder\bin\Debug\GroupProject.exe
+C:\Users\shelb\source\repos\GroupProject1\New folder\bin\Debug\GroupProject.pdb
+C:\Users\shelb\source\repos\GroupProject1\New folder\obj\Debug\GroupProject.csproj.AssemblyReference.cache
+C:\Users\shelb\source\repos\GroupProject1\New folder\obj\Debug\GroupProject.csproj.CoreCompileInputs.cache
+C:\Users\shelb\source\repos\GroupProject1\New folder\obj\Debug\GroupProject.exe
+C:\Users\shelb\source\repos\GroupProject1\New folder\obj\Debug\GroupProject.pdb

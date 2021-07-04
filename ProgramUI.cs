@@ -29,12 +29,14 @@ namespace GroupProject
         public void Run()
         {
             Room currentRoom = treasury;
-            Console.WriteLine("You have snuck into the dungeon in search of treasure\n" +
-                               "and have found The Dungeon's wealthy Treasury at last!\n" +
-                               "The chest is far too heavy to be moved, it seems you'll\n" +
-                               "need the right key in hand before you leave with the riches.\n" +
-                                "------------------------------------------------------\n" +
-                                "Press any key to start");
+            Console.WriteLine("Great Champion Perseus -\n" +
+                              "You have snuck into the Gorgon Dungeon in search of treasure\n" +
+                              "and have found the dungeon's wealthy Treasury at last!\n" +
+                              "The chest is far too heavy to be moved, it seems you'll\n" +
+                              "need the right key in hand before you leave with riches.\n" +
+                              "But beware of danger around every corner!\n" +
+                              "------------------------------------------------------\n" +
+                              "Press any key to start");
             Console.ReadKey();
             Console.Clear();
             bool living = true;
@@ -43,7 +45,7 @@ namespace GroupProject
                 Console.WriteLine(currentRoom.Splash);
                 foreach (Item item in currentRoom.Items)
                 {
-                    Console.WriteLine($"there is a {item} in this room.");
+                    Console.WriteLine($"You search around and discover the {item} in the corner.");
                 }
                 string command = Console.ReadLine().ToLower();
                 bool foundExit = false;
@@ -125,7 +127,7 @@ namespace GroupProject
                 {
                     living = false;
                     Console.Clear();
-                    Console.WriteLine("You've Perished, Play again? Y/N");
+                    Console.WriteLine("You've Perished at the sight of Medussa.  Play again? Y/N");
                     string PlayAgain = Console.ReadLine();
                     if (PlayAgain.ToLower() == "y")
                     {
@@ -140,7 +142,7 @@ namespace GroupProject
         }
 
         public static Room treasury = new Room(
-            "You enter the treasury, as described here.\n" +
+            "You enter the treasury, full of gold and a large chest.\n" +
             "This chamber connects with the Cell and the Armory.",
             new List<string> { "cell", "armory" },
             new List<Item> { Item.Mirror },
@@ -158,20 +160,22 @@ namespace GroupProject
             }
         );
         public static Room armory = new Room(
-            "Armory Text",
+            "You enter the Armory, full of weapons and gear for battle.\n" +
+            "This chamber connects to the Treasury and the Hall.",
             new List<string> { "treasury", "hall" },
             new List<Item> { Item.Sword },
             new List<Event> {
                 new Event(
                 "sword",
                 EventType.Get,
-                new Result(Item.Sword, "You found the Sword! Use it in a fight!")
+                new Result(Item.Sword, "You found the Sword! A great weapon for battle!")
                 ),
             }
         );
 
         public static Room cell = new Room(
-            "Cell Text",
+            "You enter the Cell.  Skeletons and corpses lay still in the corner.\n" +
+            "This chamber ONLY connects to the Treasury.",
             new List<string> { "treasury" },
             new List<Item> { Item.HallKey },
             new List<Event> {  
@@ -184,32 +188,35 @@ namespace GroupProject
         );
 
         public static Room hall = new Room(
-           "Hall Text: You are aware of a Gorgon somewhere in this room.",
+           "You enter the Great Hall, where kings once dined.\n" +
+           "This chamber connects to the Armory.\n" +
+           "You sense a Gorgon lurking somewhere in the shadows.\n",
            new List<string> { "armory", "hiddenchamber" },
            new List<Item> { },
            new List<Event> {
                 new Event(
                 "sword",
                 EventType.Use,
-                new Result("Looking at your foe, You realize your mistake! You've been petrified.")
+                new Result("Looking at your foe, You realize your costly mistake! You've been petrified.")
                 ),
                 new Event(
                 "mirror",
                 EventType.Use,
-                new Result("hiddenchamber", "You cause the monster to view itself, turning the Gorgon to stone!")
+                new Result("hiddenchamber", "You cause the monster to gaze upon itself, turning the Gorgon to stone!\n" +
+                           "A hidden chamber appears.")
                 ),
            }
        );
 
         public static Room hiddenchamber = new Room(
-            "THis small room is shaped so you cannot go back. You see that a tunnel might lead to the Treasury!",
+            "This small room is shaped so you cannot go back.  You see that a tunnel might lead to the Treasury!",
             new List<string> { "treasury" },
             new List<Item> { Item.TreasureKey },
             new List<Event> { 
             new Event(
                 "treasurekey",
                 EventType.Get,
-                new Result(Item.TreasureKey, "You found the Treasure Key! USE it in the Treasury!")
+                new Result(Item.TreasureKey, "You found the TreasureKey! USE it on the chest in the Treasury!")
                 ),
             }
         );
